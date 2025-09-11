@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">LoginApp</string>
+    <string name="login_title">登录界面</string>
+    <string name="username_hint">请输入用户名</string>
+    <string name="password_hint">请输入密码</string>
+    <string name="login_button">登录</string>
+    <string name="welcome_message">欢迎, %s!</string>
+    <string name="friend_list_title">好友列表</string>
+    <string name="input_error">请输入用户名和密码</string>
+    <string name="login_success">登录成功！</string>
+</resources>
