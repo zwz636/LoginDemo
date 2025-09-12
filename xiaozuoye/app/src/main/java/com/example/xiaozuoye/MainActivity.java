@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView resultTextView;
     private ProgressBar progressBar;
     private int selectedAvatarId = R.drawable.two;
-    private Button loginButton;
+    private CustomButton loginButton;
 
 
     @Override
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         loginButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Toast.makeText(MainActivity.this, "This is a Button", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "This is a CustomButton", Toast.LENGTH_SHORT).show();
                 attemptLogin();
             }
         });

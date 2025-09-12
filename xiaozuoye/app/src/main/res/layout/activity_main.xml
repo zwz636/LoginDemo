@@ -74,11 +74,12 @@
         android:layout_marginBottom="20dp"
         android:padding="12dp"/>
 
-    <Button
+    <com.example.xiaozuoye.CustomButton
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="登录"/>
+        app:buttonText="登录"
+        app:buttonBackgroundColor="#FF4CAF50"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

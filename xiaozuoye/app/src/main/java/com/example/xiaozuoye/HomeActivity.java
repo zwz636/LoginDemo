@@ -17,7 +17,9 @@ public class HomeActivity extends AppCompatActivity {
 
         private ListView friendListView;
         private List<Friend> friendList = new ArrayList<>();
-        private Button backButton;
+        private CustomButton backButton;
+        private CustomButton refreshButton;
+        private FriendAdapter adapter;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +27,18 @@ public class HomeActivity extends AppCompatActivity {
             setContentView(R.layout.activity_home);
 
             backButton = findViewById(R.id.backButton);
+            refreshButton = findViewById(R.id.refreshButton);
             backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     returnToMainActivity();
+                }
+            });
+
+            refreshButton.setOnCustomClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    refreshFriendList();
                 }
             });
 
@@ -45,29 +55,33 @@ public class HomeActivity extends AppCompatActivity {
             setupFriendList();
         }
 
+    private void refreshFriendList() {
+        Toast.makeText(this, "好友列表已刷新", Toast.LENGTH_SHORT).show();
+        // 这里可以添加实际的刷新逻辑
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setupFriendList() {
+        friendListView = findViewById(R.id.friendListView);
+
+        // 添加好友数据
+        friendList.add(new Friend("甲", "在线", R.drawable.dawa));
+        friendList.add(new Friend("乙", "离线", R.drawable.erwa));
+        friendList.add(new Friend("丙", "在线", R.drawable.sanwa));
+        friendList.add(new Friend("丁", "忙碌", R.drawable.siwa));
+        friendList.add(new Friend("戊", "在线", R.drawable.qiwa));
+
+        adapter = new FriendAdapter(this, friendList); // 赋值给成员变量
+        friendListView.setAdapter(adapter);
+        }
+
     private void returnToMainActivity() {
         Intent intent = new Intent(HomeActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }
-        private void setupFriendList() {
-            friendListView = findViewById(R.id.friendListView);
 
-            friendList.add(new Friend("甲", "在线", R.drawable.dawa));
-            friendList.add(new Friend("乙", "离线", R.drawable.erwa));
-            friendList.add(new Friend("丙", "在线", R.drawable.sanwa));
-            friendList.add(new Friend("丁", "忙碌", R.drawable.siwa));
-            friendList.add(new Friend("戊", "在线", R.drawable.qiwa));
 
-            FriendAdapter adapter = new FriendAdapter(this, friendList);
-            friendListView.setAdapter(adapter);
-
-            friendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Friend friend = friendList.get(position);
-                    Toast.makeText(HomeActivity.this, "点击了: " + friend.getName(), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
 }

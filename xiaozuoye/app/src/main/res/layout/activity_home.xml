@@ -6,13 +6,24 @@
     android:padding="16dp"
     android:background="@drawable/one">
 
-    <Button
+    <com.example.xiaozuoye.CustomButton
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="返回登录"
+        app:buttonText="返回登录"
+        app:buttonBackgroundColor="#FFFF5722"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+    <com.example.xiaozuoye.CustomButton
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:buttonText="刷新列表"
+        app:buttonBackgroundColor="#FF2196F3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp"/>
 
     <LinearLayout
