@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentProgress[0] < totalProgress) {
                     handler.postDelayed(this, 50);
                 } else {
-                    showLoginResult(username);
+                    navigateToHomeActivity(username);;
                 }
             }
         };
@@ -121,15 +121,11 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(runnable, 50);
     }
 
-    private void showLoginResult(String username) {
-        progressBar.setVisibility(View.GONE);
-        resultTextView.setVisibility(View.VISIBLE);
-        String resultMessage = String.format("登录成功！\n用户名: %s\n头像ID: %d", username, selectedAvatarId);
-        resultTextView.setText(resultMessage);
-
-        Toast.makeText(this, "登录成功！", Toast.LENGTH_SHORT).show();
-
-        usernameEditText.setText("");
-        passwordEditText.setText("");
+    private void navigateToHomeActivity(String username) {
+        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        intent.putExtra("USERNAME", username);
+        intent.putExtra("AVATAR_ID", selectedAvatarId);
+        startActivity(intent);
+        finish();
     }
 }
