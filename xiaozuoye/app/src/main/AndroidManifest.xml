@@ -23,6 +23,9 @@
         <activity
             android:name=".HomeActivity"
             android:exported="false"/>
+
+            <activity android:name=".ChatActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

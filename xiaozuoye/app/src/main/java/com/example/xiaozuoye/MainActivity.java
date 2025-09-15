@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         setupAvatarSelection();
 
-        loginButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 Toast.makeText(MainActivity.this, "This is a CustomButton", Toast.LENGTH_SHORT).show();
                 attemptLogin();
             }
@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 if (currentProgress[0] < totalProgress) {
                     handler.postDelayed(this, 50);
                 } else {
-                    navigateToHomeActivity(username);;
+                    navigateToHomeActivity(username);
+                    ;
                 }
             }
         };
