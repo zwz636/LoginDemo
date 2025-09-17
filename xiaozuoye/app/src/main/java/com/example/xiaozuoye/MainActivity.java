@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.xiaozuoye.R;
@@ -24,29 +27,63 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private TextView resultTextView;
     private ProgressBar progressBar;
+    private RadioGroup modeRadioGroup;
+    private RadioButton userModeRadio;
+    private RadioButton adminModeRadio;
+    private CustomButton registerButton;
+    private boolean isUserMode = true;
     private int selectedAvatarId = R.drawable.two;
     private CustomButton loginButton;
+    private AppDatabaseHelper dbHelper;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbHelper = new AppDatabaseHelper(this);
 
         usernameEditText = findViewById(R.id.usernameEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         progressBar = findViewById(R.id.progressBar);
         resultTextView = findViewById(R.id.resultTextView);
         loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
+        modeRadioGroup = findViewById(R.id.modeRadioGroup);
+        userModeRadio = findViewById(R.id.userModeRadio);
+        adminModeRadio = findViewById(R.id.adminModeRadio);
 
         setupAvatarSelection();
+        setupModeSelection();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "This is a CustomButton", Toast.LENGTH_SHORT).show();
                 attemptLogin();
             }
         });
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptRegister();
+            }
+        });
+    }
+    private void setupModeSelection() {
+        modeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.userModeRadio) {
+                    isUserMode = true;
+                    registerButton.setVisibility(View.VISIBLE);
+                    loginButton.setButtonText("登录");
+                } else if (checkedId == R.id.adminModeRadio) {
+                    isUserMode = false;
+                    registerButton.setVisibility(View.GONE);
+                    loginButton.setButtonText("管理员登录");
+                }
+            }
+        });
+        userModeRadio.setChecked(true);
     }
 
     private void setupAvatarSelection() {
@@ -88,18 +125,59 @@ public class MainActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         if (username.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "输入错误", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
-        resultTextView.setVisibility(View.GONE);
-        progressBar.setProgress(0);
-
-        simulateLoginProcess(username);
+        if (isUserMode) {
+            if (dbHelper.checkUser(username, password)) {
+                progressBar.setVisibility(View.VISIBLE);
+                resultTextView.setVisibility(View.GONE);
+                progressBar.setProgress(0);
+                simulateLoginProcess(username, false);
+            } else {
+                Toast.makeText(this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if (dbHelper.checkUser(username, password)&&dbHelper.isAdmin(username)) {
+            progressBar.setVisibility(View.VISIBLE);
+            resultTextView.setVisibility(View.GONE);
+            progressBar.setProgress(0);
+            simulateLoginProcess(username,true);
+        } else {
+            Toast.makeText(this, "管理员用户名或密码错误", Toast.LENGTH_SHORT).show();
+               }
+        }
     }
 
-    private void simulateLoginProcess(final String username) {
+    private void attemptRegister() {
+        if (!isUserMode) {
+            Toast.makeText(this, "管理员模式不支持注册", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String username = usernameEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "请输入用户名和密码", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (dbHelper.userExists(username)) {
+            Toast.makeText(this, "用户名已存在", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (dbHelper.addUser(username, password, selectedAvatarId)) {
+            Toast.makeText(this, "注册成功，请登录", Toast.LENGTH_SHORT).show();
+            passwordEditText.setText("");
+        } else {
+            Toast.makeText(this, "注册失败，请重试", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void simulateLoginProcess(final String username,final boolean isAdmin) {
         final Handler handler = new Handler(Looper.getMainLooper());
         final int totalProgress = 100;
         final int[] currentProgress = {0};
@@ -113,8 +191,11 @@ public class MainActivity extends AppCompatActivity {
                 if (currentProgress[0] < totalProgress) {
                     handler.postDelayed(this, 50);
                 } else {
-                    navigateToHomeActivity(username);
-                    ;
+                    if (isAdmin) {
+                        navigateToAdminActivity(username);
+                    }else{
+                        navigateToHomeActivity(username);
+                    }
                 }
             }
         };
@@ -128,5 +209,19 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("AVATAR_ID", selectedAvatarId);
         startActivity(intent);
         finish();
+    }
+    private void navigateToAdminActivity(String username) {
+        Intent intent = new Intent(MainActivity.this, AdminActivity.class);
+        intent.putExtra("ADMIN_NAME", username);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
     }
 }

@@ -26,6 +26,9 @@
 
             <activity android:name=".ChatActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".AdminActivity"
+        android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

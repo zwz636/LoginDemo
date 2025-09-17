@@ -20,6 +20,30 @@
         android:textStyle="bold"
         android:layout_marginBottom="30dp"/>
 
+    <!-- 模式选择 -->
+    <RadioGroup
+        android:id="@+id/modeRadioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
+
+        <RadioButton
+            android:id="@+id/userModeRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户模式"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/adminModeRadio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="管理员模式"
+            android:layout_marginStart="20dp"/>
+    </RadioGroup>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -74,6 +98,16 @@
         android:layout_marginBottom="20dp"
         android:padding="12dp"/>
 
+    <!-- 注册按钮（用户模式显示） -->
+    <com.example.xiaozuoye.CustomButton
+        android:id="@+id/registerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="注册"
+        app:buttonBackgroundColor="#FF2196F3"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"/>
+
     <com.example.xiaozuoye.CustomButton
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
@@ -89,6 +123,7 @@
         android:max="100"
         android:visibility="gone"
         android:layout_marginTop="20dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
