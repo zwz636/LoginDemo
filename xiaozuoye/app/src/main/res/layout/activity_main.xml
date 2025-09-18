@@ -20,7 +20,6 @@
         android:textStyle="bold"
         android:layout_marginBottom="30dp"/>
 
-    <!-- 模式选择 -->
     <RadioGroup
         android:id="@+id/modeRadioGroup"
         android:layout_width="match_parent"
@@ -98,7 +97,6 @@
         android:layout_marginBottom="20dp"
         android:padding="12dp"/>
 
-    <!-- 注册按钮（用户模式显示） -->
     <com.example.xiaozuoye.CustomButton
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
@@ -114,6 +112,14 @@
         android:layout_height="wrap_content"
         app:buttonText="登录"
         app:buttonBackgroundColor="#FF4CAF50"/>
+
+    <com.example.xiaozuoye.CustomButton
+        android:id="@+id/visualizeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:buttonText="查看数据图表"
+        app:buttonBackgroundColor="#FF9C27B0"
+        android:layout_marginTop="10dp"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -99,7 +99,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
         String[] usernames = {"user1", "user2", "user3", "user4", "user5"};
         String[] passwords = {"pass1", "pass2", "pass3", "pass4", "pass5"};
-        int[] avatarIds = {R.drawable.two, R.drawable.three, R.drawable.four, R.drawable.two, R.drawable.three};
+        int[] avatarIds = {R.drawable.dawa, R.drawable.erwa, R.drawable.sanwa, R.drawable.siwa, R.drawable.qiwa};
 
         for (int i = 0; i < usernames.length; i++) {
             ContentValues userValues = new ContentValues();
@@ -291,7 +291,6 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    // 好友操作
     public boolean addFriend(String currentUser, String friendUsername) {
         if (!userExists(friendUsername)) {
             return false;

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private int selectedAvatarId = R.drawable.two;
     private CustomButton loginButton;
     private AppDatabaseHelper dbHelper;
+    private CustomButton visualizeButton;
 
 
     @Override
@@ -52,9 +53,17 @@ public class MainActivity extends AppCompatActivity {
         modeRadioGroup = findViewById(R.id.modeRadioGroup);
         userModeRadio = findViewById(R.id.userModeRadio);
         adminModeRadio = findViewById(R.id.adminModeRadio);
-
+        visualizeButton = findViewById(R.id.visualizeButton);
         setupAvatarSelection();
         setupModeSelection();
+
+        visualizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DataVisualizationActivity.class);
+                startActivity(intent);
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

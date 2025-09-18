@@ -29,6 +29,7 @@
         <activity
             android:name=".AdminActivity"
         android:parentActivityName=".MainActivity"/>
+        <activity android:name=".DataVisualizationActivity" />
     </application>
 
 </manifest>
